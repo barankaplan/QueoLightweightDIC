@@ -32,7 +32,7 @@ public class KaplansDemoTestngApplication {
     private ModelForServiceDetails modelForServiceDetailsDemoRun;
 
     @BeforeTest
-    public void init() {
+    public void initAndObserveSingleton() {
         lightweightDIC = KaplansDependencyInjector.run(DemoRun.class);
         modelForServiceDetails = lightweightDIC.getServicesByAnnotation(KaplansBean.class);
         modelForServiceDetailsDemoA = lightweightDIC.getServiceDetails(DemoA.class);
@@ -51,7 +51,7 @@ public class KaplansDemoTestngApplication {
         stringCollectionOfFields.add("private com.queo.pretest.DemoC com.queo.pretest.DemoA.demoC");
 
         Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
-        Function<? super Field, ?> kla = new Function<Field, Object>() {
+        Function<? super Field, ?> functionForFields = new Function<Field, Object>() {
             @Override
             public Object apply(Field field) {
                 return field.toString();
@@ -59,9 +59,61 @@ public class KaplansDemoTestngApplication {
         };
 
         boolean containsAll = Arrays.stream(autowireAnnotatedFields).toList().stream()
-                .map(kla).toList().containsAll(stringCollectionOfFields);
+                .map(functionForFields).toList().containsAll(stringCollectionOfFields);
 
         Assert.assertTrue(containsAll);
+
+    }
+
+    @Test(groups = {"annotated"})
+    public void checkIfFieldsIndDemoAareAnnotatedByKaplansInject() throws InterruptedException {
+
+        Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
+
+
+        Function<? super Field, ?> kaplans = new Function<Field, Object>() {
+            @Override
+            public String apply(Field field) {
+                return Arrays.toString(field.getDeclaredAnnotations());
+            }
+        };
+
+
+        Predicate<Object> predicate= new Predicate<Object>() {
+            @Override
+            public boolean test(Object o) {
+                return o.toString().contains("KaplansInject");
+
+            }
+        };
+        var fieldsHaveKaplansInjectAnnotation=Arrays.stream(autowireAnnotatedFields).toList().stream().map(kaplans).anyMatch(predicate);
+        Assert.assertTrue(fieldsHaveKaplansInjectAnnotation);
+
+    }
+
+    @Test(groups = {"annotated"})
+    public void checkIfFieldsIndDemoAareAnnotatedByKaplansKaplansNamedField() throws InterruptedException {
+
+        Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
+
+
+        Function<? super Field, ?> kaplans = new Function<Field, Object>() {
+            @Override
+            public String apply(Field field) {
+                return Arrays.toString(field.getDeclaredAnnotations());
+            }
+        };
+
+
+        Predicate<Object> predicate= new Predicate<Object>() {
+            @Override
+            public boolean test(Object o) {
+                return o.toString().contains("KaplansNamedField");
+
+            }
+        };
+        var fieldsHaveKaplansInjectAnnotation=Arrays.stream(autowireAnnotatedFields).toList().stream().map(kaplans).anyMatch(predicate);
+        Assert.assertTrue(fieldsHaveKaplansInjectAnnotation);
 
     }
 
@@ -72,7 +124,7 @@ public class KaplansDemoTestngApplication {
     }
 
     @Test(groups = {"Bean"})
-    public void checkIFDemoAHasName() throws InterruptedException {
+    public void checkIfDemoAHasName() throws InterruptedException {
         String instanceName = modelForServiceDetailsDemoA.getInstanceName();
         String demoAName = "this is a class named A";
         Assert.assertEquals(instanceName, demoAName);
@@ -105,14 +157,14 @@ public class KaplansDemoTestngApplication {
         listOfAnnotatedClass.add(modelForServiceDetailsDemoA);
         listOfAnnotatedClass.add(modelForServiceDetailsDemoB);
         listOfAnnotatedClass.add(modelForServiceDetailsDemoC);
-//      listOfAnnotatedClass.add(modelForServiceDetailsDemoD);// it is not annotated!
         listOfAnnotatedClass.add(modelForServiceDetailsDemoRun);
-
         var containsAll = modelForServiceDetails.containsAll(listOfAnnotatedClass);
         Assert.assertTrue(containsAll);
     }
 
     @Test(groups = {"annotated"})
+
+
     public void checkIfAllAnnotatedClassesFetchedUsingNotAnnotatedClass() throws InterruptedException {
         Collection<ModelForServiceDetails> listOfAnnotatedClass = new HashSet<>();
         listOfAnnotatedClass.add(modelForServiceDetailsDemoA);
@@ -126,30 +178,5 @@ public class KaplansDemoTestngApplication {
     }
 
 
-    @Test(groups = {"annotated"})
-    public void checkIfFieldsIndDemoAareAnnotatedByKaplansInject() throws InterruptedException {
-
-        Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
-
-
-        Function<? super Field, ?> kaplans = new Function<Field, Object>() {
-            @Override
-            public String apply(Field field) {
-                return Arrays.toString(field.getDeclaredAnnotations());
-            }
-        };
-
-
-        Predicate<Object> predicate= new Predicate<Object>() {
-            @Override
-            public boolean test(Object o) {
-                return o.toString().contains("KaplansInject");
-
-            }
-        };
-        var fieldsHaveKaplansInjectAnnotation=Arrays.stream(autowireAnnotatedFields).toList().stream().map(kaplans).anyMatch(predicate);
-        Assert.assertTrue(fieldsHaveKaplansInjectAnnotation);
-
-    }
 
 }

@@ -7,7 +7,7 @@ import com.queo.annotations.KaplansNamedClass;
 
 
 @KaplansBean
-@KaplansNamedClass("baran")
+@KaplansNamedClass("this is a class named A")
 public class DemoA implements Demo {
 
     @KaplansInject

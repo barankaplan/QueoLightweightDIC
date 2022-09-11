@@ -9,6 +9,6 @@ import com.queo.annotations.KaplansNamedField;
 public class DemoRun {
 
     @KaplansInject
-    @KaplansNamedField("baran")
+    @KaplansNamedField("this is a class named A")
     private Demo demo;
 }

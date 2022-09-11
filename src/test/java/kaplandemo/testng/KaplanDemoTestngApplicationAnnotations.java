@@ -38,6 +38,8 @@ public class KaplanDemoTestngApplicationAnnotations {
     @Test(groups = {"annotated"})
     public void test() throws InterruptedException {
        lightweightDIC.getAllServices().forEach(System.out::println);
+        System.out.println( modelForServiceDetailsDemoA.getInstanceName());
+       ;
     }
 
 

@@ -31,7 +31,7 @@ public class KaplansDemoTestngApplication {
     private ModelForServiceDetails modelForServiceDetailsDemoD;
     private ModelForServiceDetails modelForServiceDetailsDemoRun;
 
-    @BeforeTest
+    @BeforeTest(groups ={"expectation1","expectation2","expectation3","expectation4","expectation5"} )
     public void initAndObserveSingleton() {
         lightweightDIC = KaplansDependencyInjector.run(DemoRun.class);
         modelForServiceDetails = lightweightDIC.getServicesByAnnotation(KaplansBean.class);
@@ -165,8 +165,6 @@ public class KaplansDemoTestngApplication {
     }
 
     @Test(groups = {"expectation5"})
-
-
     public void checkIfAllAnnotatedClassesFetchedUsingNotAnnotatedClass() throws InterruptedException {
         Collection<ModelForServiceDetails> listOfAnnotatedClass = new HashSet<>();
         listOfAnnotatedClass.add(modelForServiceDetailsDemoA);

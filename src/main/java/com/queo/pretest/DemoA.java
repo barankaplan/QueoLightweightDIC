@@ -4,6 +4,7 @@ package com.queo.pretest;
 import com.queo.annotations.KaplansBean;
 import com.queo.annotations.KaplansInject;
 import com.queo.annotations.KaplansNamedClass;
+import com.queo.annotations.KaplansNamedField;
 
 
 @KaplansBean
@@ -11,6 +12,7 @@ import com.queo.annotations.KaplansNamedClass;
 public class DemoA implements Demo {
 
     @KaplansInject
+    @KaplansNamedField("this is a class named B")
     private DemoB demoB;
 
     @KaplansInject

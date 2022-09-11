@@ -10,7 +10,7 @@ import com.queo.annotations.KaplansNamedField;
 public class DemoC implements Demo {
 
     @KaplansInject
-    @KaplansNamedField("this is a class named B in C")
+    @KaplansNamedField("this is a class named B")
     private DemoB demoB;
 
 

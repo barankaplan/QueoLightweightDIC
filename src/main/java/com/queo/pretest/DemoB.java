@@ -5,7 +5,7 @@ import com.queo.annotations.KaplansBean;
 import com.queo.annotations.KaplansNamedClass;
 
 @KaplansBean
-@KaplansNamedClass("this is a class named B in C")
+@KaplansNamedClass("this is a class named B")
 public class DemoB {
 
     public DemoB() {

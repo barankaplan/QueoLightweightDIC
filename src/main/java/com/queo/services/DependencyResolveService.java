@@ -20,10 +20,7 @@ public class DependencyResolveService {
     private static final String COULD_NOT_CREATE_INSTANCE_MISSING_DEPENDENCY_MSG = "Could not create instance of '%s'. Parameter '%s' implementation was not found";
     private static final String COULD_NOT_FIND_NAMED_MSG = "Could not create instance of '%s'. Named '%s' was not found.";
 
-    /**
-     * Contains all available types that will be loaded from this service.
-     * This includes all services and all beans.
-     */
+
     private final List<Class<?>> allAvailableClasses;
 
     private final ConfigurationForInstantiation configuration;
@@ -35,11 +32,7 @@ public class DependencyResolveService {
         this.configuration = configuration;
     }
 
-    /**
-     * Extracts all available classes from the mapped serviced and adds them into one list.
-     *
-     * @param mappedServices - located services in the app.
-     */
+
     public void init(Collection<ModelForServiceDetails> mappedServices) {
         this.allAvailableClasses.clear();
         this.mappedServices = mappedServices;
@@ -52,7 +45,6 @@ public class DependencyResolveService {
             );
         }
 
-        //If services are provided through config, add them to the list of available classes and instances.
         this.allAvailableClasses.addAll(this.configuration.getProvidedServices()
                 .stream()
                 .map(ModelForServiceDetails::getServiceType)
@@ -114,10 +106,6 @@ public class DependencyResolveService {
         }
     }
 
-    /**
-     * Adds the object instance in the array of instantiated dependencies
-     * by keeping the exact same position as the target constructor of the service has it.
-     */
     public void addDependency(EnqueuedServiceDetails enqueuedServiceDetails, ModelForServiceDetails serviceDetails) {
         if (!this.addDependency(enqueuedServiceDetails.getConstructorParams(), serviceDetails)) {
             this.addDependency(enqueuedServiceDetails.getFieldDependencies(), serviceDetails);

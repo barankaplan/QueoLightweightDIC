@@ -43,7 +43,13 @@ public class KaplansDemoTestngApplication {
 
     }
 
-    @Test(groups = {"Inject"})
+    @Test(groups = {"expectation1"})
+    public void checkIfDemoAIsSingleton() {
+        var scopeType = modelForServiceDetailsDemoA.getScopeType();
+        Assert.assertEquals(scopeType, ScopeType.SINGLETON);
+    }
+
+    @Test(groups = {"expectation2"})
     public void checkIfDemoAHasFields() {
         Collection<String> stringCollectionOfFields = new HashSet<>();
 
@@ -65,7 +71,7 @@ public class KaplansDemoTestngApplication {
 
     }
 
-    @Test(groups = {"annotated"})
+    @Test(groups = {"expectation3"})
     public void checkIfFieldsIndDemoAareAnnotatedByKaplansInject() throws InterruptedException {
 
         Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
@@ -91,7 +97,7 @@ public class KaplansDemoTestngApplication {
 
     }
 
-    @Test(groups = {"annotated"})
+    @Test(groups = {"expectation3"})
     public void checkIfFieldsIndDemoAareAnnotatedByKaplansKaplansNamedField() throws InterruptedException {
 
         Field[] autowireAnnotatedFields = modelForServiceDetailsDemoA.getAutowireAnnotatedFields();
@@ -117,13 +123,9 @@ public class KaplansDemoTestngApplication {
 
     }
 
-    @Test(groups = {"Bean"})
-    public void checkIfDemoAIsSingleton() {
-        var scopeType = modelForServiceDetailsDemoA.getScopeType();
-        Assert.assertEquals(scopeType, ScopeType.SINGLETON);
-    }
 
-    @Test(groups = {"Bean"})
+
+    @Test(groups = {"expectation4"})
     public void checkIfDemoAHasName() throws InterruptedException {
         String instanceName = modelForServiceDetailsDemoA.getInstanceName();
         String demoAName = "this is a class named A";
@@ -131,7 +133,7 @@ public class KaplansDemoTestngApplication {
     }
 
 
-    @Test(groups = {"bean"})
+    @Test(groups = {"expectation4"})
     public void checkIfDemoAMatchesInDemoRunAsNamed() throws InterruptedException {
         var autowireAnnotatedFields = modelForServiceDetailsDemoRun.getResolvedFields();
         Function<? super ModelForDependencies, ?> getKaplansNamedField = new Function<ModelForDependencies, Object>() {
@@ -151,7 +153,7 @@ public class KaplansDemoTestngApplication {
     }
 
 
-    @Test(groups = {"annotated"})
+    @Test(groups = {"expectation5"})
     public void checkIfAllAnnotatedClassesFetched() throws InterruptedException {
         Collection<ModelForServiceDetails> listOfAnnotatedClass = new HashSet<>();
         listOfAnnotatedClass.add(modelForServiceDetailsDemoA);
@@ -162,7 +164,7 @@ public class KaplansDemoTestngApplication {
         Assert.assertTrue(containsAll);
     }
 
-    @Test(groups = {"annotated"})
+    @Test(groups = {"expectation5"})
 
 
     public void checkIfAllAnnotatedClassesFetchedUsingNotAnnotatedClass() throws InterruptedException {
